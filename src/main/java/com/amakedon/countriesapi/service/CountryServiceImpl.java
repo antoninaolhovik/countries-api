@@ -19,8 +19,24 @@ public class CountryServiceImpl implements CountryService {
     RestTemplate restTemplate;
 
     @Override
-    public List<CountryDto> getCountries(String countryName, Integer population, String sort, Integer pageSize) {
+    public List<CountryDto> getCountries(String countryName, Integer population, String sortOrder, Integer pageSize) {
+        List<CountryDto> countries = getAllCountriesList();
+        if (countryName != null) {
+            countries = filterCountriesByName(countryName, countries);
+        }
+        if (population != null) {
+            countries = filterByPopulation(population, countries);
+        }
+        if (sortOrder != null) {
+            countries = sortByCountryName(sortOrder, countries);
+        }
+        if (pageSize != null) {
+            countries = pagination(pageSize, countries);
+        }
+        return countries;
+    }
 
+    private List<CountryDto> getAllCountriesList() {
         ResponseEntity<CountryDto[]> response =
                 restTemplate.getForEntity(
                         RESOURCE_URL,
@@ -43,7 +59,7 @@ public class CountryServiceImpl implements CountryService {
                 .toList();
     }
 
-    public static List<CountryDto> sortByCountryName(String sortOrder, List<CountryDto> countries) {
+    public List<CountryDto> sortByCountryName(String sortOrder, List<CountryDto> countries) {
         List<CountryDto> sortedCountries = new ArrayList<>(countries);
         Function<CountryDto, String> countryDtoStringFunction = c -> c.getName().getCommon();
 
