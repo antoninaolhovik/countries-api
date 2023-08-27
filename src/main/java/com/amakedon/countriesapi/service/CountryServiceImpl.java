@@ -30,4 +30,12 @@ public class CountryServiceImpl implements CountryService {
                 .filter(country -> country.getName().getCommon().toLowerCase().contains(countryName.toLowerCase()))
                 .toList();
     }
+
+    private List<CountryDto> filterByPopulation(Integer population, List<CountryDto> countries) {
+        final long MILLION = 1000000L;
+        long populationInMillion = population * MILLION;
+        return countries.stream()
+                .filter(country -> country.getPopulation() < populationInMillion)
+                .toList();
+    }
 }
