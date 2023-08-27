@@ -45,13 +45,13 @@ public class CountryServiceImpl implements CountryService {
         return List.of(countriesList);
     }
 
-    public List<CountryDto> filterCountriesByName(String countryName, List<CountryDto> countries) {
+    List<CountryDto> filterCountriesByName(String countryName, List<CountryDto> countries) {
         return countries.stream()
                 .filter(country -> country.getName().getCommon().toLowerCase().contains(countryName.toLowerCase()))
                 .toList();
     }
 
-    private List<CountryDto> filterByPopulation(Integer population, List<CountryDto> countries) {
+    List<CountryDto> filterByPopulation(Integer population, List<CountryDto> countries) {
         final long MILLION = 1000000L;
         long populationInMillion = population * MILLION;
         return countries.stream()
@@ -59,7 +59,7 @@ public class CountryServiceImpl implements CountryService {
                 .toList();
     }
 
-    public List<CountryDto> sortByCountryName(String sortOrder, List<CountryDto> countries) {
+    List<CountryDto> sortByCountryName(String sortOrder, List<CountryDto> countries) {
         List<CountryDto> sortedCountries = new ArrayList<>(countries);
         Function<CountryDto, String> countryDtoStringFunction = c -> c.getName().getCommon();
 
@@ -73,7 +73,7 @@ public class CountryServiceImpl implements CountryService {
         return sortedCountries;
     }
 
-    private List<CountryDto> pagination(Integer pageSize, List<CountryDto> countries) {
+    List<CountryDto> pagination(Integer pageSize, List<CountryDto> countries) {
         return countries.stream().limit(pageSize).toList();
     }
 
