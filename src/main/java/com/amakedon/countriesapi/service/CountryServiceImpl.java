@@ -6,7 +6,11 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
+import java.util.function.Function;
 
 @Service
 public class CountryServiceImpl implements CountryService {
@@ -38,4 +42,20 @@ public class CountryServiceImpl implements CountryService {
                 .filter(country -> country.getPopulation() < populationInMillion)
                 .toList();
     }
+
+    public static List<CountryDto> sortByCountryName(String sortOrder, List<CountryDto> countries) {
+        List<CountryDto> sortedCountries = new ArrayList<>(countries);
+        Function<CountryDto, String> countryDtoStringFunction = c -> c.getName().getCommon();
+
+        if ("ascend".equalsIgnoreCase(sortOrder)) {
+            Collections.sort(sortedCountries, Comparator.comparing(countryDtoStringFunction));
+        } else if ("descend".equalsIgnoreCase(sortOrder)) {
+            Collections.sort(sortedCountries, Comparator.comparing(countryDtoStringFunction).reversed());
+        } else {
+            throw new IllegalArgumentException("Invalid sorting order value, 'ascend' or 'descend' are allowed");
+        }
+        return sortedCountries;
+    }
+
+
 }
