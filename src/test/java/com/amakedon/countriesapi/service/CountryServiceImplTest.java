@@ -16,7 +16,6 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertIterableEquals;
-import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.when;
 
 class CountryServiceImplTest {
@@ -42,7 +41,7 @@ class CountryServiceImplTest {
         final CountryDto[] mockCountries = new CountryDto[] {countryEstonia, countryChina, countryIndia, countryUsa};
 
         ResponseEntity<CountryDto[]> responseEntity = ResponseEntity.ok(mockCountries);
-        when(restTemplate.getForEntity(eq(CountryServiceImpl.RESOURCE_URL), eq(CountryDto[].class)))
+        when(restTemplate.getForEntity(CountryServiceImpl.RESOURCE_URL, CountryDto[].class))
                 .thenReturn(responseEntity);
 
         List<CountryDto> actualCountries = countryService.getCountries(null, null, null, null);
@@ -60,7 +59,7 @@ class CountryServiceImplTest {
         final CountryDto[] mockCountries = new CountryDto[] {countryEstonia, countryChina, countryIndia, countryUsa};
 
         ResponseEntity<CountryDto[]> responseEntity = ResponseEntity.ok(mockCountries);
-        when(restTemplate.getForEntity(eq(CountryServiceImpl.RESOURCE_URL), eq(CountryDto[].class)))
+        when(restTemplate.getForEntity(CountryServiceImpl.RESOURCE_URL, CountryDto[].class))
                 .thenReturn(responseEntity);
 
         List<CountryDto> actualCountries = countryService.getCountries("CH", 2000, "Ascend", 5);
