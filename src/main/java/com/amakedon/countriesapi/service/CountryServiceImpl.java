@@ -57,5 +57,8 @@ public class CountryServiceImpl implements CountryService {
         return sortedCountries;
     }
 
+    private List<CountryDto> pagination(Integer pageSize, List<CountryDto> countries) {
+        return countries.stream().limit(pageSize).toList();
+    }
 
 }
