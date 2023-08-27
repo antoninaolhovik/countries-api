@@ -23,6 +23,11 @@ public class CountryServiceImpl implements CountryService {
                         CountryDto[].class);
         CountryDto[] countriesList = response.getBody();
         return List.of(countriesList);
+    }
 
+    public List<CountryDto> filterCountriesByName(String countryName, List<CountryDto> countries) {
+        return countries.stream()
+                .filter(country -> country.getName().getCommon().toLowerCase().contains(countryName.toLowerCase()))
+                .toList();
     }
 }
